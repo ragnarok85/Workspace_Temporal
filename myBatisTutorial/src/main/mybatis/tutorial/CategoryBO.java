@@ -57,12 +57,17 @@ public class CategoryBO {
 			CategoryVO cat = new CategoryVO();
 			cat.setCat_title(cats.getCl_sortkey());
 			cat.setCl_type("subcat");
+			System.out.println("Sending category: " + cats.getCl_sortkey());
 			
 			try {
 				List<CategoryVO> listCats = bo.getInformation(cat);
+				System.out.println("=======Printing results========");
+				printResults(listCats);
 				if(!listCats.isEmpty()){
 					if(mapCats.containsKey(cats.getCl_sortkey())){
+						System.out.println("sending category to be precessed: " + cats.getCl_sortkey());
 						mapCats.get(cats.getCl_sortkey()).addAll(listCats);
+						retrieveCats(cats.getCl_sortkey(),listCats);
 					}else{
 						System.out.println("sending category to be precessed: " + cats.getCl_sortkey());
 						mapCats.put(cats.getCl_sortkey(), listCats);
@@ -75,8 +80,21 @@ public class CategoryBO {
 				e.printStackTrace();
 			} 
 		}
-		System.out.println("\n\n The number of maps add to the list is: " + mapCats.size());
+		System.out.println("\n\n The number of maps add to the list from " + category +" is: " + mapCats.size());
 		listCategories.add(mapCats);
+	}
+	
+	public void printResults(List<CategoryVO> catVO){
+		for(CategoryVO cats : catVO){
+			System.out.println("=================================");
+			System.out.println("cl_from: " + cats.getCl_from());
+			System.out.println("cat_title: " + cats.getCat_title());
+			System.out.println("cl_sortedkey: " + cats.getCl_sortkey());
+			System.out.println("cat_pages: " + cats.getCat_pages());
+			System.out.println("cat_subcats: " + cats.getCat_subcats());
+			System.out.println("cl_type: " + cats.getCl_type());
+		}
+		System.out.println("\n\n");
 	}
 	
 	public void printListCategories(){
