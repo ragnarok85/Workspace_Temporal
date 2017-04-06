@@ -61,9 +61,14 @@ public class CategoryBO {
 			try {
 				List<CategoryVO> listCats = bo.getInformation(cat);
 				if(!listCats.isEmpty()){
-					System.out.println("sending category to be precessed: " + cats.getCl_sortkey());
-					mapCats.put(cats.getCl_sortkey(), listCats);
-					retrieveCats(cats.getCl_sortkey(),listCats);
+					if(mapCats.containsKey(cats.getCl_sortkey())){
+						mapCats.get(cats.getCl_sortkey()).addAll(listCats);
+					}else{
+						System.out.println("sending category to be precessed: " + cats.getCl_sortkey());
+						mapCats.put(cats.getCl_sortkey(), listCats);
+						retrieveCats(cats.getCl_sortkey(),listCats);
+					}
+					
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
